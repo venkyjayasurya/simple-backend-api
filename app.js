@@ -1,4 +1,7 @@
 const express = require("express");
+require('dotenv/config');
+const mongoose = require("mongoose");
+
 const app = express();
 app.use(express.json());
 
@@ -22,6 +25,10 @@ app.post('/createUser', (req, res)=>{
 
     res.send(`User Created ${req.body.name}`);
 })
+
+mongoose.connect(process.env.DB_CONNECTION_STRING, {useUnifiedTopology: true, useNewUrlParser: true}, (req, res)=>{
+    console.log("Connected to Database")
+});
 
 app.listen(3000, () => {
   console.log("Listening to Port 3000");
