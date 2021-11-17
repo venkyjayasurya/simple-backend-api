@@ -1,5 +1,8 @@
 const express = require("express");
-require('dotenv/config');
+require("dotenv/config");
+
+const User = require("./model/users");
+
 const mongoose = require("mongoose");
 
 const app = express();
@@ -20,15 +23,23 @@ app.get("/users", (req, res) => {
   res.send({ users: users });
 });
 
-app.post('/createUser', (req, res)=>{
-    console.log(req.body);
-
-    res.send(`User Created ${req.body.name}`);
-})
-
-mongoose.connect(process.env.DB_CONNECTION_STRING, {useUnifiedTopology: true, useNewUrlParser: true}, (req, res)=>{
-    console.log("Connected to Database")
+app.post("/createUser", async (req, res) => {
+  try {
+    const myUser = new User(req.body);
+    await myUser.save();
+    res.send(myUser);
+  } catch (err) {
+    res.send({ message: err });
+  }
 });
+
+mongoose.connect(
+  process.env.DB_CONNECTION_STRING,
+  { useUnifiedTopology: true, useNewUrlParser: true },
+  (req, res) => {
+    console.log("Connected to Database");
+  }
+);
 
 app.listen(3000, () => {
   console.log("Listening to Port 3000");
