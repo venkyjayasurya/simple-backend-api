@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 // const customMiddleware = (req, res, next) => {
 //     console.log("Welcome to middleware")
@@ -17,7 +18,9 @@ app.get("/users", (req, res) => {
 });
 
 app.post('/createUser', (req, res)=>{
-    console.log(req);
+    console.log(req.body);
+
+    res.send(`User Created ${req.body.name}`);
 })
 
 app.listen(3000, () => {
