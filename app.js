@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.get('/', (req, res) => {
-    console.log('First Request');
+    res.send('First Request');
 })
 
 app.listen(3000, ()=>{
